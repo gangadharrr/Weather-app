@@ -50,5 +50,30 @@ document.getElementById('today-day-2').innerHTML=days[(date.getDay()+2)%6];
 document.getElementById('today-day-3').innerHTML=days[(date.getDay()+3)%6];                         
 document.getElementById('today-day-4').innerHTML=days[(date.getDay()+4)%6];                         
 document.getElementById('today-day-5').innerHTML=days[(date.getDay()+5)%6];   
+function throttle(cb, delay) {
+  let wait = false;
+  let storedArgs = null;
 
-mainFun('Chennai');
+  function checkStoredArgs () {
+    if (storedArgs == null) {
+      wait = false;
+    } else {
+      cb(...storedArgs);
+      storedArgs = null;
+      setTimeout(checkStoredArgs, delay);
+    }
+  }
+
+  return (...args) => {
+    if (wait) {
+      storedArgs = args;
+      return;
+    }
+
+    cb(...args);
+    wait = true;
+    setTimeout(checkStoredArgs, delay);
+  }
+}
+var exec=throttle(mainFun,3000);
+exec('Chennai');
