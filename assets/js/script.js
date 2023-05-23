@@ -11,7 +11,7 @@ async function mainFun(city){
 var response= await fetch(`https://geocode.xyz/${city}?json=1`)
 var geoData= await response.json();
 console.log(geoData); 
-document.getElementById('city-details').innerHTML=geoData.city;
+document.getElementById('city-details').innerHTML=city;
 
 // result= getWeather(geoData.latt,geoData.longt);
 var resultDaily=await getWeatherDaily(geoData.latt,geoData.longt);
