@@ -11,6 +11,8 @@ async function mainFun(city){
 var response= await fetch(`https://geocode.xyz/${city}?json=1`)
 var geoData= await response.json();
 console.log(geoData); 
+document.getElementById('city-details').innerHTML=geoData.city;
+
 // result= getWeather(geoData.latt,geoData.longt);
 var resultDaily=await getWeatherDaily(geoData.latt,geoData.longt);
 var resultDaily=resultDaily.list
@@ -41,7 +43,7 @@ for(var i=1;i<6;i++)
 }
 var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 const date = new Date();
-document.getElementById('today-date').innerHTML=days[date.getDay()]+","+date.getHours()+':'+date.getMinutes();    
+document.getElementById('today-date').innerHTML=days[date.getDay()]+","+String(date.getHours()).padStart(2, '0')+':'+String(date.getMinutes()).padStart(2, '0');    
 document.getElementById('today-day').innerHTML=days[date.getDay()];                         
 document.getElementById('today-day-1').innerHTML=days[(date.getDay()+1)%6];                         
 document.getElementById('today-day-2').innerHTML=days[(date.getDay()+2)%6];                         
@@ -49,21 +51,4 @@ document.getElementById('today-day-3').innerHTML=days[(date.getDay()+3)%6];
 document.getElementById('today-day-4').innerHTML=days[(date.getDay()+4)%6];                         
 document.getElementById('today-day-5').innerHTML=days[(date.getDay()+5)%6];   
 
-// mainFun("chennai");
-function throttle(cb, delay) {
-  let wait = false;
-
-  return (...args) => {
-    if (wait) {
-        return;
-    }
-
-    cb(...args);
-    wait = true;
-    setTimeout(() => {
-      wait = false;
-    }, delay);
-  }
-}
-var executer=throttle(mainFun,2500)
-executer('chennai');
+mainFun('Chennai');
